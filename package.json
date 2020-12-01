@@ -26,7 +26,7 @@
     "build:cjs": "rm -rfd ./dist/cjs; ./node_modules/.bin/tsc --project tsconfig.cjs.json",
     "build:es": "rm -rfd ./dist/es; ./node_modules/.bin/tsc --project tsconfig.es.json",
     "build": "rm -rfd ./dist && npm run build:es && npm run build:cjs",
-    "test": "echo \"Error: no test specified 🤦‍♂️\" && exit 1",
+    "test": "echo \"Error: NO TESTS 🤦‍♂️\" && exit 0",
     "eslint": "./node_modules/.bin/eslint . --ext ts,tsx,js,jsx",
     "lint": "./node_modules/.bin/prettier -l \"{,!(node_modules)/**/}*.{ts,tsx,md,yml,json,html}\" && npm run eslint",
     "lint-fix": "./node_modules/.bin/prettier --write \"{,!(node_modules)/**/}*.{ts,tsx,md,yml,json,html}\" && npm run eslint --fix"
