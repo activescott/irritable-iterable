@@ -1,6 +1,6 @@
-import { Predicate } from "./Predicate"
+import Predicate from "./Predicate"
 
-export function* filterImp<TItem>(
+export default function* filter<TItem>(
   iterable: Iterable<TItem>,
   predicate: Predicate<TItem>
 ): Generator<TItem> {

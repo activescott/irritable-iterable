@@ -1,4 +1,4 @@
-export function* mapImp<TItem, TOut=TItem>(
+export default function* map<TItem, TOut = TItem>(
   iterable: Iterable<TItem>,
   mapper: (item: TItem, index: number) => TOut
 ): Generator<TOut> {

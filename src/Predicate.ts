@@ -1,3 +1,3 @@
-export interface Predicate<TItem> {
+export default interface Predicate<TItem> {
   (item: TItem): boolean
 }

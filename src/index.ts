@@ -1,30 +1,22 @@
-import { IterableExtended, IterableExtendedImp } from "./IterableExtended"
-import { Predicate } from "./Predicate"
-import { rangeImp } from "./range"
+import { Chain, chain } from "./chain"
+import Predicate from "./Predicate"
+import rangeImp from "./range"
+export { default as first } from "./first"
+export { default as size } from "./size"
 
-/* These are the exported versions of operators that return an IterableExtended with iterable extensions */
+/* These are the exported versions of operators that return an Chain with iterable extensions */
 export function filter<TItem>(
   iterable: Iterable<TItem>,
   predicate: Predicate<TItem>
-): IterableExtended<TItem> {
-  return new IterableExtendedImp(iterable).filter(predicate)
+): Chain<TItem> {
+  return chain(iterable).filter(predicate)
 }
 
-export function map<TItem, TOut=TItem>(
+export function map<TItem, TOut = TItem>(
   iterable: Iterable<TItem>,
   mapper: (item: TItem, index: number) => TOut
-): IterableExtended<TOut> {
-  return new IterableExtendedImp(iterable).map(mapper)
+): Chain<TOut> {
+  return chain(iterable).map(mapper)
 }
 
-export function count<TItem>(iterable: Iterable<TItem>): number {
-  return new IterableExtendedImp(iterable).count()
-}
-
-export function first<TItem>(iterable: Iterable<TItem>): TItem | undefined {
-  return new IterableExtendedImp(iterable).first()
-}
-
-export function range(stop: number): IterableExtended<number> {
-  return new IterableExtendedImp(rangeImp(stop))
-}
+export const range = (stop: number): Chain<number> => chain(rangeImp(stop))
