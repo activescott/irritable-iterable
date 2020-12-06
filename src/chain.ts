@@ -11,8 +11,8 @@ export interface Chain<TItem> extends Iterable<TItem> {
   filter(predicate: Predicate<TItem>): Chain<TItem>
   map<TOut>(mapper: (item: TItem, index: number) => TOut): Chain<TOut>
   size(): number
-  first(): TItem | undefined
   collect(): TItem[]
+  first(): TItem | undefined
 }
 
 export const chain = <TItem>(iter: Iterable<TItem>): Chain<TItem> =>

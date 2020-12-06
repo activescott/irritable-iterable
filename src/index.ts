@@ -1,8 +1,6 @@
 import { Chain, chain } from "./chain"
 import Predicate from "./Predicate"
 import rangeImp from "./range"
-export { default as first } from "./first"
-export { default as size } from "./size"
 
 /* These are the exported versions of operators that return an Chain with iterable extensions */
 export function filter<TItem>(
