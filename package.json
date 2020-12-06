@@ -35,7 +35,7 @@
     "coverage-publish": "cat ./coverage/lcov.info | coveralls",
     "postinstall": "node scripts/postInstall.js"
   },
-  "license": "ISC",
+  "license": "MPL-2.0",
   "devDependencies": {
     "@activescott/eslint-config": "^2.2.0",
     "@types/jest": "^26.0.16",
