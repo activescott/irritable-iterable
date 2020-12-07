@@ -39,7 +39,26 @@ filter([1, 2, 3], (num) => num % 2 === 0)
   .map((num) => `${num} is even`)
   .collect()
 
-=> [ "2 is even" ]
+// [ "2 is even" ]
+```
+
+There are also versions supporting Async Iterable and Async Generators. For example:
+
+```js
+import { filterAsync } from "irritable-iterable"
+
+filterAsync(myAsyncGenerator(), (num) => num % 2 === 0)
+  .map((num) => `${num} is even`)
+  .collect()
+
+// [ "2 is even" ]
+
+// just to demonstrate
+async function* myAsyncGenerator() {
+  yield 1
+  yield 2
+  yield 3
+}
 ```
 
 ### chain
@@ -61,10 +80,9 @@ chain([1, 2, 3]).collect() // => [1, 2, 3]
 ```js
 import { filter } from "irritable-iterable"
 
-filter([1, 2, 3], (num) => num % 2 === 0)
-  .collect()
+filter([1, 2, 3], (num) => num % 2 === 0).collect()
 
-=> [ 2 ]
+// [ 2 ]
 ```
 
 ### map
@@ -72,10 +90,9 @@ filter([1, 2, 3], (num) => num % 2 === 0)
 ```js
 import { map } from "irritable-iterable"
 
-map([1, 2, 3], (num) => "number " + num)
-  .collect()
+map([1, 2, 3], (num) => "number " + num).collect()
 
-=> [ 'number 1', 'number 2', 'number 3' ]
+// [ 'number 1', 'number 2', 'number 3' ]
 ```
 
 ### range
@@ -86,15 +103,13 @@ The stop value is exclusive; it is not included in the result.
 ```js
 import { range } from "irritable-iterable"
 
-range(3)
-  .collect()
+range(3).collect()
 
-=> [ 0, 1, 2 ]
+// [ 0, 1, 2 ]
 
-range(0, 20, 5)
-  .collect()
+range(0, 20, 5).collect()
 
-=> [0, 5, 10, 15]
+// [0, 5, 10, 15]
 ```
 
 ### size

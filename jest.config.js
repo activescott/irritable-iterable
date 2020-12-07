@@ -8,5 +8,5 @@ module.exports = {
     },
   },
   collectCoverageFrom: ["src/**/*.ts"],
-  testPathIgnorePatterns: ["/node_modules/", "/example"],
+  testPathIgnorePatterns: ["/node_modules/"],
 }
