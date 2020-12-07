@@ -4,7 +4,7 @@ module.exports = {
   setupFiles: ["./tests/support/setup.ts"],
   globals: {
     "ts-jest": {
-      tsconfig: "tsconfig.cjs.json",
+      tsconfig: "tsconfig.es.json",
     },
   },
   collectCoverageFrom: ["src/**/*.ts"],

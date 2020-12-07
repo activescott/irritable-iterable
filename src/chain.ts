@@ -1,22 +1,20 @@
-import size from "./size"
-import filter from "./filter"
-import first from "./first"
-import map from "./map"
+import { size } from "./size"
+import { filter } from "./filter"
+import { first } from "./first"
+import { map } from "./map"
 import Predicate from "./Predicate"
 
 /**
- * Specifies the methods available on an iterable chain from the iterable methods.
+ * Specifies the methods available on an iterable chain.
  */
 export interface Chain<TItem> extends Iterable<TItem> {
   filter(predicate: Predicate<TItem>): Chain<TItem>
   map<TOut>(mapper: (item: TItem, index: number) => TOut): Chain<TOut>
+  // below here methods are actions that force an iteration
   size(): number
   collect(): TItem[]
   first(): TItem | undefined
 }
-
-export const chain = <TItem>(iter: Iterable<TItem>): Chain<TItem> =>
-  new ChainImp(iter)
 
 /* Internal implementation of exported Chain interface */
 class ChainImp<TItem> implements Chain<TItem> {
@@ -48,3 +46,6 @@ class ChainImp<TItem> implements Chain<TItem> {
     return this.iterable[Symbol.iterator]()
   }
 }
+
+export const chain = <TItem>(iter: Iterable<TItem>): Chain<TItem> =>
+  new ChainImp(iter)

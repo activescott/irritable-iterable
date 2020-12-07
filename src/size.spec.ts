@@ -1,4 +1,4 @@
-import size from "./size"
+import { size } from "./size"
 import { falseys, generator } from "../tests/support"
 
 describe("size", () => {
