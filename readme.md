@@ -47,7 +47,7 @@ There are also versions supporting Async Iterable and Async Generators. For exam
 ```js
 import { filterAsync } from "irritable-iterable"
 
-filterAsync(myAsyncGenerator(), (num) => num % 2 === 0)
+await filterAsync(myAsyncGenerator(), (num) => num % 2 === 0)
   .map((num) => `${num} is even`)
   .collect()
 
@@ -115,6 +115,8 @@ range(0, 20, 5).collect()
 ### size
 
 ```js
+import { size } from "irritable-iterable"
+
 const result = size(["a", "b", "c", "d"])
 
 // 0
@@ -123,6 +125,8 @@ const result = size(["a", "b", "c", "d"])
 ### first
 
 ```js
+import { first } from "irritable-iterable"
+
 const result = first(["a", "b", "c", "d"])
 
 // "a"
@@ -133,6 +137,8 @@ const result = first(["a", "b", "c", "d"])
 Collect converts the iterable to an array and returns it.
 
 ```js
+import { chain } from "irritable-iterable"
+
 function* myGenerator() {
   yield "a"
   yield "b"
@@ -178,10 +184,6 @@ To trigger a release use a Conventional Commit following [Angular Commit Message
 
 ## Todo / Roadmap
 
-misc:
-
-- async versions of all operations (see AsyncIterable)
-
 operations:
 
 - head
@@ -204,6 +206,17 @@ operations:
     - ...when the option is reduced to a single value or a smaller set of values in a single iteration of the elements (e.g. `count`, `reduce`).
     - ...when array has methods that mutate the array (`reverse`, `sort`)?
 
-tasks:
+### Ideas
 
-- perf baselines and test thresholds
+#### SQL-Style API
+
+- maybe a sql-style API like:
+
+```js
+from(iterator)
+  .where(v => ...)
+  .select(v => { foo: v.foo, bar: v.bar })  // i.e. alias for "map" function
+  .groupBy(v => v.foo) // [ ["foo-value1", [v1, v2, v3]], ... ]
+
+
+```
