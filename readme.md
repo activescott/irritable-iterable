@@ -114,11 +114,40 @@ range(0, 20, 5).collect()
 
 ### size
 
-import { map } from "irritable-iterable"
+```js
+const result = size(["a", "b", "c", "d"])
+
+// 0
+```
 
 ### first
 
+```js
+const result = first(["a", "b", "c", "d"])
+
+// "a"
+```
+
 ### collect
+
+Collect converts the iterable to an array and returns it.
+
+```js
+function* myGenerator() {
+  yield "a"
+  yield "b"
+  yield "c"
+}
+
+console.log("myGenerator:", myGenerator())
+// myGenerator: Object [Generator] {}
+
+console.log("myGenerator chain:", chain(myGenerator()))
+// myGenerator chain: ChainImp { iterable: Object [Generator] {} }
+
+console.log("myGenerator collect:", chain(myGenerator()).collect())
+// myGenerator collect: [ 'a', 'b', 'c' ]
+```
 
 ## Show your support
 

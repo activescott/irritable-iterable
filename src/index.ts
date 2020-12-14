@@ -4,6 +4,8 @@ import Predicate from "./Predicate"
 import rangeImp from "./range"
 export { chain } from "./chain"
 export { chainAsync } from "./chainAsync"
+export { size } from "./size"
+export { first } from "./first"
 
 /* These are the exported versions of operators that return an Chain with iterable extensions */
 export function filter<TItem>(
