@@ -186,19 +186,21 @@ To trigger a release use a Conventional Commit following [Angular Commit Message
 
 operations:
 
-- head
-- tail
-- reduce
-- group (see d3.groups, uses arrays not maps)
-- includes: returns true (?) when any one element satisfies predicate
-- some: alias for includes
-- every: returns true (?) when EVERY one element satisfies predicate
-- none: returns true (?) when NO element satisfies predicate
-- each: call an Action for every item.
-- zip
-- without: yields the items that do not satisfy the predicate (i.e. opposite of filter)
-- with: alias for filter
-- where: alias for filter
+- [x] group (see d3.group, uses map)
+- [ ] groups (see d3.groups, uses arrays not map)
+- [ ] head
+- [ ] tail
+- [ ] reduce
+
+- [ ] includes: returns true (?) when any one element satisfies predicate
+- [ ] some: alias for includes
+- [ ] every: returns true (?) when EVERY one element satisfies predicate
+- [ ] none: returns true (?) when NO element satisfies predicate
+- [ ] each: call an Action for every item.
+- [ ] zip
+- [ ] without: yields the items that do not satisfy the predicate (i.e. opposite of filter)
+- [ ] with: alias for filter
+- [ ] where: alias for filter
 
 - Operations that should **not** be added:
   - Most operations that necessarily require a full iteration or a full count of items (e.g. `unique`, `sort`, `reverse`, `sample`) should just call `collect` and use other methods to perform the operation.

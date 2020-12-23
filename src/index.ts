@@ -6,6 +6,7 @@ export { chain } from "./chain"
 export { chainAsync } from "./chainAsync"
 export { size } from "./size"
 export { first } from "./first"
+export { group, groupAsync } from "./group"
 
 /* These are the exported versions of operators that return an Chain with iterable extensions */
 export function filter<TItem>(
