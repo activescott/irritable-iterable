@@ -46,10 +46,9 @@ jobs:
       #- name: debug deploy_package
       #  uses: actions/bin/debug@master
 
-      - name: deploy via semantic-release
+      - name: publish to npm (conditionally)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          npm i semantic-release@17
-          ./node_modules/.bin/semantic-release
+          npx semantic-release@17
