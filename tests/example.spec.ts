@@ -7,6 +7,7 @@ import {
   find,
   first,
   size,
+  group,
 } from "../src"
 import * as assert from "assert"
 
@@ -28,13 +29,15 @@ describe("readme examples", () => {
   test("Quick Start (async)", async () => {
     // import { filterAsync } from "irritable-iterable"
 
-    const result = filterAsync(generateOneTwoThree(), (num) => num % 2 === 0)
+    const promisedResult = filterAsync(
+      generateOneTwoThree(),
+      (num) => num % 2 === 0
+    )
       .map((num) => `${num} is even`)
       .collect()
 
-    const resolved = await result
-    assert.equal(resolved[0], "2 is even")
-    assert.equal(resolved.length, 1)
+    const result = await promisedResult
+    assert.deepEqual(result, ["2 is even"])
 
     // for demonstration purposes:
     async function* generateOneTwoThree() {
@@ -113,6 +116,41 @@ describe("readme examples", () => {
     const result = first(["a", "b", "c", "d"])
 
     assert.equal(result, "a")
+  })
+
+  test("group", () => {
+    // import { group } from "irritable-iterable"
+
+    const map = group(
+      [
+        { first: "john", last: "doe" },
+        { first: "john", last: "foe" },
+        { first: "jane", last: "doe" },
+        { first: "jane", last: "foe" },
+      ],
+      (person) => person.last
+    )
+
+    // the result of `group` is a JavaScript Map (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)
+    // ...which we convert to an array here:
+    const result = Array.from(map.entries())
+
+    assert.deepEqual(result, [
+      [
+        "doe",
+        [
+          { first: "john", last: "doe" },
+          { first: "jane", last: "doe" },
+        ],
+      ],
+      [
+        "foe",
+        [
+          { first: "john", last: "foe" },
+          { first: "jane", last: "foe" },
+        ],
+      ],
+    ])
   })
 
   test("collect", () => {
