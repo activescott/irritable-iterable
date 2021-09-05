@@ -42,18 +42,20 @@ const result = filter([1, 2, 3, 4], (num) => num % 2 === 0)
 assert.deepEqual(result, ["2 is even", "4 is even"])
 ```
 
-There are also versions supporting Async Iterable and Async Generators. For example:
+There are also `*Async` versions of each function (e.g. `filterAsync`, `mapAsync`, `groupAsync`, etc.) supporting [Asynchronous Iterable and Asynchronous Generator functions](https://github.com/tc39/proposal-async-iteration). For example:
 
 ```js
 import { filterAsync } from "irritable-iterable"
 
-const result = filterAsync(generateOneTwoThree(), (num) => num % 2 === 0)
+const promisedResult = filterAsync(
+  generateOneTwoThree(),
+  (num) => num % 2 === 0
+)
   .map((num) => `${num} is even`)
   .collect()
 
-const resolved = await result
-assert.equal(resolved[0], "2 is even")
-assert.equal(resolved.length, 1)
+const result = await promisedResult
+assert.deepEqual(result, ["2 is even"])
 
 // for demonstration purposes:
 async function* generateOneTwoThree() {
@@ -74,6 +76,7 @@ chain([1, 2, 3]).filter((num) => num == 2) // => 2
 chain([1, 2, 3]).find(["a", "b", "c"], (item) => item === "b") // => "b"
 chain([1, 2, 3]).map((num) => num.toString()) // => [ "1", "2", "3" ]
 chain([1, 2, 3]).size() // => 3
+chain([1, 2, 3]).collect() // => [1, 2, 3]
 chain([1, 2, 3]).collect() // => [1, 2, 3]
 ```
 
@@ -167,6 +170,45 @@ chain([1, 2, 3]).find((item) => item === 2) // => 2
 chain([1, 2, 3]).map((num) => num.toString()) // => [ "1", "2", "3" ]
 chain([1, 2, 3]).size() // => 3
 chain([1, 2, 3]).collect() // => [1, 2, 3]
+```
+
+### group
+
+Groups the items in the iterable into a map with keys specified by key-generation function and each value in the map is an array of the items with that key.
+
+```js
+import { group } from "irritable-iterable"
+
+const map = group(
+  [
+    { first: "john", last: "doe" },
+    { first: "john", last: "foe" },
+    { first: "jane", last: "doe" },
+    { first: "jane", last: "foe" },
+  ],
+  (person) => person.last
+)
+
+// the result of `group` is a JavaScript Map (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)
+// ...which we convert to an array here:
+const result = Array.from(map.entries())
+
+assert.deepEqual(result, [
+  [
+    "doe",
+    [
+      { first: "john", last: "doe" },
+      { first: "jane", last: "doe" },
+    ],
+  ],
+  [
+    "foe",
+    [
+      { first: "john", last: "foe" },
+      { first: "jane", last: "foe" },
+    ],
+  ],
+])
 ```
 
 ## Show your support
