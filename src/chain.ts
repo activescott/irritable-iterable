@@ -3,6 +3,7 @@ import { filter } from "./filter"
 import { first } from "./first"
 import { map } from "./map"
 import Predicate from "./Predicate"
+import { find } from "./find"
 
 /**
  * Specifies the methods available on an iterable chain.
@@ -13,6 +14,7 @@ export interface Chain<TItem> extends Iterable<TItem> {
   // below here methods are actions that force an iteration
   size(): number
   collect(): TItem[]
+  find(predicate: Predicate<TItem>): TItem | undefined
   first(): TItem | undefined
 }
 
@@ -32,6 +34,10 @@ class ChainImp<TItem> implements Chain<TItem> {
 
   public size(): number {
     return size(this.iterable)
+  }
+
+  public find(predicate: Predicate<TItem>): TItem | undefined {
+    return find(this.iterable, predicate)
   }
 
   public first(): TItem {

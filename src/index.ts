@@ -4,9 +4,10 @@ import Predicate from "./Predicate"
 import rangeImp from "./range"
 export { chain } from "./chain"
 export { chainAsync } from "./chainAsync"
-export { size } from "./size"
+export { find } from "./find"
 export { first } from "./first"
 export { group, groupAsync } from "./group"
+export { size } from "./size"
 
 /* These are the exported versions of operators that return an Chain with iterable extensions */
 export function filter<TItem>(
@@ -37,4 +38,8 @@ export function mapAsync<TItem, TOut = TItem>(
   return chainAsync(iterable).map(mapper)
 }
 
-export const range = (stop: number): Chain<number> => chain(rangeImp(stop))
+export const range = (
+  start: number = 0,
+  stop: number = undefined,
+  step = 1
+): Chain<number> => chain(rangeImp(start, stop, step))
