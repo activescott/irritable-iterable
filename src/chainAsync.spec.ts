@@ -38,6 +38,12 @@ describe("asyncChain", () => {
     expect(await chainAsync(asyncify(array)).size()).toStrictEqual(array.length)
   })
 
+  it("should find", async () => {
+    expect(
+      await chainAsync(asyncify(array)).find((item) => item === 2)
+    ).toStrictEqual(2)
+  })
+
   it("to be iterable", async () => {
     let count = 0
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

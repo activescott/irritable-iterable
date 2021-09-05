@@ -1,4 +1,5 @@
 import { filterAsync } from "./filter"
+import { findAsync } from "./find"
 import { mapAsync } from "./map"
 import Predicate from "./Predicate"
 
@@ -16,15 +17,12 @@ export interface AsyncChain<TItem> extends AsyncIterable<TItem> {
    * If any item in the iterator rejects, then this method also rejects.
    */
   collect(): Promise<Array<TItem>>
-  /* TODO: consider these:
   /**
-   * Like collect but allows replacing any rejected promise with a substitute value rather than rejecting.
-   * @param rejectHandler
-  collectDefault(rejectHandler: (reason: any) => TItem): Promise<Array<TItem>>
-  /**
-   * Like collect but allows skipping any rejected promises rather than rejecting.
-  collectSkipRejections(rejectHandler: (reason: any) => TItem): Promise<Array<TItem>>
+   * Returns the first element from the collection that the predicate returns truthy for or undefined.
+   * @param predicate The predicate is invoked with only the item.
+   * @returns The matched element or `undefined`.
    */
+  find(predicate: Predicate<TItem>): Promise<TItem | undefined>
   /**
    * Resolves the first item from the iterable and returns it.
    * If no elements are in the iterable then `undefined` is returned.
@@ -62,6 +60,10 @@ export class AsyncChainImp<TItem> implements AsyncChain<TItem> {
       collection.push(v)
     }
     return collection
+  }
+
+  public async find(predicate: Predicate<TItem>): Promise<TItem | undefined> {
+    return findAsync(this.iterable, predicate)
   }
 
   public async first(): Promise<TItem> {
