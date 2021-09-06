@@ -72,8 +72,7 @@ describe("readme examples", () => {
 
     const result = filter([1, 2, 3], (num) => num % 2 === 0).collect()
 
-    assert.equal(result[0], 2)
-    assert.equal(result.length, 1)
+    assert.deepEqual(result, [2])
   })
 
   test("map", () => {
@@ -118,6 +117,21 @@ describe("readme examples", () => {
     assert.equal(result, "a")
   })
 
+  test("collect", () => {
+    // import { chain } from "irritable-iterable"
+
+    const result = chain(generateABC()).collect()
+
+    assert.deepEqual(result, ["a", "b", "c"])
+
+    // for demonstration purposes:
+    function* generateABC() {
+      yield "a"
+      yield "b"
+      yield "c"
+    }
+  })
+
   test("group", () => {
     // import { group } from "irritable-iterable"
 
@@ -151,20 +165,5 @@ describe("readme examples", () => {
         ],
       ],
     ])
-  })
-
-  test("collect", () => {
-    // import { chain } from "irritable-iterable"
-
-    const result = chain(generateABC()).collect()
-
-    assert.deepEqual(result, ["a", "b", "c"])
-
-    // for demonstration purposes:
-    function* generateABC() {
-      yield "a"
-      yield "b"
-      yield "c"
-    }
   })
 })
