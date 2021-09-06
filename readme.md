@@ -99,8 +99,7 @@ import { filter } from "irritable-iterable"
 
 const result = filter([1, 2, 3], (num) => num % 2 === 0).collect()
 
-assert.equal(result[0], 2)
-assert.equal(result.length, 1)
+assert.deepEqual(result, [2])
 ```
 
 ### map
@@ -165,11 +164,16 @@ Collect converts the iterable to an array and returns it.
 ```js
 import { chain } from "irritable-iterable"
 
-chain([1, 2, 3]).filter((num) => num == 2) // => 2
-chain([1, 2, 3]).find((item) => item === 2) // => 2
-chain([1, 2, 3]).map((num) => num.toString()) // => [ "1", "2", "3" ]
-chain([1, 2, 3]).size() // => 3
-chain([1, 2, 3]).collect() // => [1, 2, 3]
+const result = chain(generateABC()).collect()
+
+assert.deepEqual(result, ["a", "b", "c"])
+
+// for demonstration purposes:
+function* generateABC() {
+  yield "a"
+  yield "b"
+  yield "c"
+}
 ```
 
 ### group
