@@ -1,5 +1,6 @@
 {
   "name": "irritable-iterable",
+  "sideEffects": false,
   "description": "Collection functions for JavaScript iterators, generators and iterables.",
   "homepage": "https://github.com/activescott/irritable-iterable",
   "version": "0.0.0",
