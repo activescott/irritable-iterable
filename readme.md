@@ -223,7 +223,13 @@ Produces a cartesian product of the provided iterables.
 import { product } from "irritable-iterable"
 
 const result = product([1, 2], [3, 4])
-// [ [1, 3], [1, 4], [2, 3], [2, 4] ]
+const resultArray = Array.from(result)
+assert.deepEqual(resultArray, [
+  [1, 3],
+  [1, 4],
+  [2, 3],
+  [2, 4],
+])
 ```
 
 ## Show your support

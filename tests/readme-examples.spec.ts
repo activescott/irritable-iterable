@@ -8,6 +8,7 @@ import {
   first,
   size,
   group,
+  product,
 } from "../src"
 import * as assert from "assert"
 
@@ -164,6 +165,17 @@ describe("readme examples", () => {
           { first: "jane", last: "foe" },
         ],
       ],
+    ])
+  })
+
+  test("product", () => {
+    const result = product([1, 2], [3, 4])
+    const resultArray = Array.from(result)
+    assert.deepEqual(resultArray, [
+      [1, 3],
+      [1, 4],
+      [2, 3],
+      [2, 4],
     ])
   })
 })
