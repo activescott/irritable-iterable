@@ -1,4 +1,4 @@
-import { chain, filter, filterAsync, first, size } from "../src"
+import { chain, filter, filterAsync, first, product, size } from "../src"
 
 /* eslint-disable no-console */
 
@@ -45,6 +45,11 @@ describe("readme examples", () => {
     console.log("myGenerator chain:", chain(myGenerator()))
 
     console.log("myGenerator collect:", chain(myGenerator()).collect())
+  })
+
+  test("product", () => {
+    const result = product([1, 2], [3, 4])
+    console.log([...result])
   })
 })
 

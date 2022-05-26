@@ -155,6 +155,17 @@ console.log("myGenerator collect:", chain(myGenerator()).collect())
 // myGenerator collect: [ 'a', 'b', 'c' ]
 ```
 
+### product
+
+Produces a cartesian product of the provided iterables.
+
+```js
+import { product } from "irritable-iterable"
+
+const result = product([1, 2], [3, 4])
+// [ [1, 3], [1, 4], [2, 3], [2, 4] ]
+```
+
 ## Show your support
 
 Please give a ⭐️ if this project helped you!
