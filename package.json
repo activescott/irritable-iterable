@@ -1,5 +1,6 @@
 {
   "name": "irritable-iterable",
+  "sideEffects": false,
   "description": "Collection functions for JavaScript iterators, generators and iterables.",
   "homepage": "https://github.com/activescott/irritable-iterable",
   "version": "0.0.0",
@@ -30,7 +31,8 @@
     "lint": "./node_modules/.bin/prettier -l \"{,!(node_modules)/**/}*.{ts,tsx,md,yml,json,html}\" && npm run eslint",
     "lint-fix": "./node_modules/.bin/prettier --write \"{,!(node_modules)/**/}*.{ts,tsx,md,yml,json,html}\" && npm run eslint --fix",
     "test": "./node_modules/.bin/jest --coverage",
-    "dev": "./node_modules/.bin/jest --watch",
+    "watch": "./node_modules/.bin/jest --watch",
+    "dev": "npm run watch",
     "pretest": "npm run lint",
     "coverage-publish": "cat ./coverage/lcov.info | coveralls",
     "postinstall": "node scripts/postInstall.js"
@@ -39,6 +41,7 @@
   "devDependencies": {
     "@activescott/eslint-config": "^2.2.0",
     "@types/jest": "^26.0.16",
+    "@types/node": "^16.7.10",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@typescript-eslint/parser": "^4.8.2",
     "coveralls": "^3.1.0",

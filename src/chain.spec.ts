@@ -38,6 +38,10 @@ describe("chain", () => {
     expect(chain(array).size()).toStrictEqual(array.length)
   })
 
+  it("should find", () => {
+    expect(chain(array).find((item) => item === 2)).toStrictEqual(2)
+  })
+
   it("to be iterable", () => {
     let count = 0
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

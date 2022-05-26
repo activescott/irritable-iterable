@@ -35,26 +35,30 @@ For example... If you're iterator through a iterable that is fetching pages of d
 ```js
 import { filter } from "irritable-iterable"
 
-filter([1, 2, 3], (num) => num % 2 === 0)
+const result = filter([1, 2, 3, 4], (num) => num % 2 === 0)
   .map((num) => `${num} is even`)
   .collect()
 
-// [ "2 is even" ]
+assert.deepEqual(result, ["2 is even", "4 is even"])
 ```
 
-There are also versions supporting Async Iterable and Async Generators. For example:
+There are also `*Async` versions of each function (e.g. `filterAsync`, `mapAsync`, `groupAsync`, etc.) supporting [Asynchronous Iterable and Asynchronous Generator functions](https://github.com/tc39/proposal-async-iteration). For example:
 
 ```js
 import { filterAsync } from "irritable-iterable"
 
-await filterAsync(myAsyncGenerator(), (num) => num % 2 === 0)
+const promisedResult = filterAsync(
+  generateOneTwoThree(),
+  (num) => num % 2 === 0
+)
   .map((num) => `${num} is even`)
   .collect()
 
-// [ "2 is even" ]
+const result = await promisedResult
+assert.deepEqual(result, ["2 is even"])
 
-// just to demonstrate
-async function* myAsyncGenerator() {
+// for demonstration purposes:
+async function* generateOneTwoThree() {
   yield 1
   yield 2
   yield 3
@@ -68,11 +72,24 @@ All of the methods returned from the root irritable-iterable package return an o
 ```js
 import { chain } from "irritable-iterable"
 
-chain([1, 2, 3]).filter(...)
-chain([1, 2, 3]).map(...)
+chain([1, 2, 3]).filter((num) => num == 2) // => 2
+chain([1, 2, 3]).find(["a", "b", "c"], (item) => item === "b") // => "b"
+chain([1, 2, 3]).map((num) => num.toString()) // => [ "1", "2", "3" ]
 chain([1, 2, 3]).size() // => 3
 chain([1, 2, 3]).collect() // => [1, 2, 3]
+chain([1, 2, 3]).collect() // => [1, 2, 3]
+```
 
+A more typical example might be:
+
+```js
+import { chain } from "irritable-iterable"
+
+const result = filter([1, 2, 3, 4], (num) => num % 2 === 0)
+  .map((num) => `${num} is even`)
+  .find((str) => str.startsWith("4"))
+
+assert.equal(result, "4 is even")
 ```
 
 ### filter
@@ -80,9 +97,9 @@ chain([1, 2, 3]).collect() // => [1, 2, 3]
 ```js
 import { filter } from "irritable-iterable"
 
-filter([1, 2, 3], (num) => num % 2 === 0).collect()
+const result = filter([1, 2, 3], (num) => num % 2 === 0).collect()
 
-// [ 2 ]
+assert.deepEqual(result, [2])
 ```
 
 ### map
@@ -90,9 +107,9 @@ filter([1, 2, 3], (num) => num % 2 === 0).collect()
 ```js
 import { map } from "irritable-iterable"
 
-map([1, 2, 3], (num) => "number " + num).collect()
+const result = map([1, 2, 3], (num) => "number " + num).collect()
 
-// [ 'number 1', 'number 2', 'number 3' ]
+assert.deepEqual(result, ["number 1", "number 2", "number 3"])
 ```
 
 ### range
@@ -103,13 +120,11 @@ The stop value is exclusive; it is not included in the result.
 ```js
 import { range } from "irritable-iterable"
 
-range(3).collect()
+let result = range(3).collect()
+assert.deepEqual(result, [0, 1, 2])
 
-// [ 0, 1, 2 ]
-
-range(0, 20, 5).collect()
-
-// [0, 5, 10, 15]
+result = range(0, 20, 5).collect()
+assert.deepEqual(result, [0, 5, 10, 15])
 ```
 
 ### size
@@ -119,7 +134,17 @@ import { size } from "irritable-iterable"
 
 const result = size(["a", "b", "c", "d"])
 
-// 0
+assert.equal(result, 4)
+```
+
+### find
+
+```js
+import { find } from "irritable-iterable"
+
+const result = find(["a", "b", "c", "d"], (item) => item === "c")
+
+assert.equal(result, "c")
 ```
 
 ### first
@@ -129,7 +154,7 @@ import { first } from "irritable-iterable"
 
 const result = first(["a", "b", "c", "d"])
 
-// "a"
+assert.equal(result, "a")
 ```
 
 ### collect
@@ -139,20 +164,55 @@ Collect converts the iterable to an array and returns it.
 ```js
 import { chain } from "irritable-iterable"
 
-function* myGenerator() {
+const result = chain(generateABC()).collect()
+
+assert.deepEqual(result, ["a", "b", "c"])
+
+// for demonstration purposes:
+function* generateABC() {
   yield "a"
   yield "b"
   yield "c"
 }
+```
 
-console.log("myGenerator:", myGenerator())
-// myGenerator: Object [Generator] {}
+### group
 
-console.log("myGenerator chain:", chain(myGenerator()))
-// myGenerator chain: ChainImp { iterable: Object [Generator] {} }
+Groups the items in the iterable into a map with keys specified by key-generation function and each value in the map is an array of the items with that key.
 
-console.log("myGenerator collect:", chain(myGenerator()).collect())
-// myGenerator collect: [ 'a', 'b', 'c' ]
+```js
+import { group } from "irritable-iterable"
+
+const map = group(
+  [
+    { first: "john", last: "doe" },
+    { first: "john", last: "foe" },
+    { first: "jane", last: "doe" },
+    { first: "jane", last: "foe" },
+  ],
+  (person) => person.last
+)
+
+// the result of `group` is a JavaScript Map (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)
+// ...which we convert to an array here:
+const result = Array.from(map.entries())
+
+assert.deepEqual(result, [
+  [
+    "doe",
+    [
+      { first: "john", last: "doe" },
+      { first: "jane", last: "doe" },
+    ],
+  ],
+  [
+    "foe",
+    [
+      { first: "john", last: "foe" },
+      { first: "jane", last: "foe" },
+    ],
+  ],
+])
 ```
 
 ### product
@@ -172,7 +232,7 @@ Please give a ⭐️ if this project helped you!
 
 ## Contributing
 
-This is a community project. We invite your participation through issues and pull requests! You can peruse the [contributing guidelines](.github/CONTRIBUTING.md).
+This is a community project. We invite your participation through issues and pull requests! You can peruse the [contributing guidelines](.github/CONTRIBUTING.md) and see Contributing Notes below.
 
 ## Building
 
@@ -216,10 +276,11 @@ operations:
 - Operations that should **not** be added:
   - Most operations that necessarily require a full iteration or a full count of items (e.g. `unique`, `sort`, `reverse`, `sample`) should just call `collect` and use other methods to perform the operation.
   - Possible Exceptions:
+    - ...when they're extremely like `find` so you don't have to keep importing alternatives.
     - ...when the option is reduced to a single value or a smaller set of values in a single iteration of the elements (e.g. `count`, `reduce`).
     - ...when array has methods that mutate the array (`reverse`, `sort`)?
 
-### Ideas
+### Roadmap Ideas
 
 #### SQL-Style API
 
@@ -230,6 +291,48 @@ from(iterator)
   .where(v => ...)
   .select(v => { foo: v.foo, bar: v.bar })  // i.e. alias for "map" function
   .groupBy(v => v.foo) // [ ["foo-value1", [v1, v2, v3]], ... ]
+```
 
+#### ChainAsync Rejection Handling Options
 
+```
+  /*
+   * Like collect but allows replacing any rejected promise with a substitute value rather than rejecting.
+   * @param rejectHandler
+  collectDefault(rejectHandler: (reason: any) => Promise<Array<TItem>>): Promise<Array<TItem>>
+  /*
+   * Like collect but allows skipping any rejected promises rather than rejecting.
+  collectSkipRejections(rejectHandler: (reason: any) => Promise<Array<TItem>>): Promise<Array<TItem>>
+   */
+```
+
+## Contributing Notes
+
+Some notes for contributors...
+
+### `for...of` is fast enough
+
+In our tests `for...of` is basically equivelent to manual iteration performancing when using TypeScript on nodejs. When using the ES5 target in TypeScript, the TypeScript compiler unwraps `for..of` to the manual iteration syntax anyway. In ES6 it emits `for..of`
+
+For node v15.0.1 ES6 manual iteration was _slightly_ faster at an **~0.124ms** versus **~0.135ms** for `for...of` (average of 1K iterations).
+
+The `for...of` code used for testing:
+
+```
+for (const item of iterable) {
+  if (predicate(item)) {
+    yield item
+  }
+}
+```
+
+The manual iteration code used for testing:
+
+```
+const iterator: Iterator<TItem, any, undefined> = iterable[Symbol.iterator]()
+let value: TItem
+for (let next = iterator.next(); !next.done; next = iterator.next()) {
+  value = next.value
+  if (predicate(value)) yield value
+}
 ```
