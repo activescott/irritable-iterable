@@ -7,6 +7,7 @@ export { chainAsync } from "./chainAsync"
 export { find } from "./find"
 export { first } from "./first"
 export { group, groupAsync } from "./group"
+export { product } from "./product"
 export { size } from "./size"
 
 /* These are the exported versions of operators that return an Chain with iterable extensions */

@@ -24,9 +24,11 @@ describe("chain", () => {
     const wrapped = chain([])
     const filter = wrapped.filter(() => true)
     const map = wrapped.map((i) => i)
+    const product = wrapped.product([1], [2])
     expectIsChainInstance(wrapped)
     expectIsChainInstance(filter)
     expectIsChainInstance(map)
+    expectIsChainInstance(product)
   })
 
   it("should collect", () => {
