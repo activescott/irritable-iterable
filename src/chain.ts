@@ -17,7 +17,7 @@ export interface Chain<TItem> extends Iterable<TItem> {
   collect(): TItem[]
   find(predicate: Predicate<TItem>): TItem | undefined
   first(): TItem | undefined
-  product<TItem>(...iterables: Iterable<TItem>[]): Chain<Iterable<TItem>[]>
+  product(...iterables: Iterable<TItem>[]): Chain<TItem[]>
 }
 
 /* Internal implementation of exported Chain interface */
@@ -46,10 +46,10 @@ class ChainImp<TItem> implements Chain<TItem> {
     return first(this.iterable)
   }
 
-  public product<TItem>(
-    ...iterables: Iterable<TItem>[]
-  ): Chain<Iterable<TItem>[]> {
-    return new ChainImp(product(iterables))
+  public product(...iterables: Iterable<TItem>[]): Chain<TItem[]> {
+    const input = [this.iterable, ...iterables]
+    const result = product<TItem>(...input)
+    return new ChainImp(result)
   }
 
   public collect(): TItem[] {
