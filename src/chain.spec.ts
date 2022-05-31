@@ -44,6 +44,14 @@ describe("chain", () => {
     expect(chain(array).find((item) => item === 2)).toStrictEqual(2)
   })
 
+  it("should product", () => {
+    expect(chain(array).product([4]).collect()).toStrictEqual([
+      [1, 4],
+      [2, 4],
+      [3, 4],
+    ])
+  })
+
   it("to be iterable", () => {
     let count = 0
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -1,10 +1,7 @@
 export function product<TItem>(
   ...iterables: Iterable<TItem>[]
-): Generator<Array<TItem>> {
-  function* helper(
-    row: TItem[],
-    iterableIndex: number
-  ): Generator<Array<TItem>> {
+): Generator<TItem[]> {
+  function* helper(row: TItem[], iterableIndex: number): Generator<TItem[]> {
     const iterable = iterables[iterableIndex]
     for (const item of iterable) {
       // if there's more iterables:

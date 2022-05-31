@@ -31,7 +31,7 @@
     "lint": "./node_modules/.bin/prettier -l \"{,!(node_modules)/**/}*.{ts,tsx,md,yml,json,html}\" && npm run eslint",
     "lint-fix": "./node_modules/.bin/prettier --write \"{,!(node_modules)/**/}*.{ts,tsx,md,yml,json,html}\" && npm run eslint --fix",
     "test": "./node_modules/.bin/jest --coverage",
-    "watch": "./node_modules/.bin/jest --watch",
+    "watch": "./node_modules/.bin/jest --watch --testPathIgnorePatterns performance.spec",
     "dev": "npm run watch",
     "pretest": "npm run lint",
     "coverage-publish": "cat ./coverage/lcov.info | coveralls",
