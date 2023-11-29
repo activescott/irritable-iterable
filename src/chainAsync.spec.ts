@@ -52,4 +52,27 @@ describe("asyncChain", () => {
     }
     expect(count).toBeGreaterThan(0)
   })
+
+  it("should first", async () => {
+    expect(await chainAsync(asyncify(array)).first()).toStrictEqual(1)
+  })
+
+  it("should filter", async () => {
+    const actual = await chainAsync(asyncify(array))
+      .filter((item) => item === 2)
+      .collect()
+    expect(actual).toStrictEqual([2])
+  })
+
+  it("should map", async () => {
+    const actual = await chainAsync(asyncify(array))
+      .map((item) => item.toString())
+      .collect()
+    expect(actual).toStrictEqual(["1", "2", "3"])
+  })
+
+  it("should head", async () => {
+    const actual = await chainAsync(asyncify(array)).head(2).collect()
+    expect(actual).toStrictEqual([1, 2])
+  })
 })

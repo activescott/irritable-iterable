@@ -2,8 +2,7 @@
 [![npm downloads](https://img.shields.io/npm/dt/irritable-iterable.svg?logo=npm)](https://www.npmjs.com/package/irritable-iterable)
 [![Build Status](https://github.com/activescott/irritable-iterable/workflows/main/badge.svg)](https://github.com/activescott/irritable-iterable/actions)
 [![Coverage Status](https://coveralls.io/repos/github/activescott/irritable-iterable/badge.svg?branch=master)](https://coveralls.io/github/activescott/irritable-iterable?branch=master)
-[![Dependency Count](https://badgen.net/bundlephobia/dependency-count/irritable-iterable)](https://bundlephobia.com/result?p=irritable-iterable)
-[![Minified Size](https://badgen.net/bundlephobia/min/irritable-iterable)](https://bundlephobia.com/result?p=irritable-iterable)
+[![install size](https://packagephobia.com/badge?p=irritable-iterable)](https://packagephobia.com/result?p=irritable-iterable)
 [![License](https://img.shields.io/github/license/activescott/irritable-iterable.svg)](https://github.com/activescott/irritable-iterable/blob/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/activescott/irritable-iterable.svg?style=social)](https://github.com/activescott/irritable-iterable)
 
@@ -57,7 +56,7 @@ const promisedResult = filterAsync(
 const result = await promisedResult
 assert.deepEqual(result, ["2 is even"])
 
-// for demonstration purposes:
+// for demonstration purposes, but these could each be fetch calls
 async function* generateOneTwoThree() {
   yield 1
   yield 2
@@ -83,7 +82,7 @@ chain([1, 2, 3]).collect() // => [1, 2, 3]
 A more typical example might be:
 
 ```js
-import { chain } from "irritable-iterable"
+import { filter } from "irritable-iterable"
 
 const result = filter([1, 2, 3, 4], (num) => num % 2 === 0)
   .map((num) => `${num} is even`)
@@ -109,7 +108,7 @@ import { map } from "irritable-iterable"
 
 const result = map([1, 2, 3], (num) => "number " + num).collect()
 
-assert.deepEqual(result, ["number 1", "number 2", "number 3"])
+assert.deepStrictEqual(result, ["number 1", "number 2", "number 3"])
 ```
 
 ### range
@@ -121,10 +120,10 @@ The stop value is exclusive; it is not included in the result.
 import { range } from "irritable-iterable"
 
 let result = range(3).collect()
-assert.deepEqual(result, [0, 1, 2])
+assert.deepStrictEqual(result, [0, 1, 2])
 
 result = range(0, 20, 5).collect()
-assert.deepEqual(result, [0, 5, 10, 15])
+assert.deepStrictEqual(result, [0, 5, 10, 15])
 ```
 
 ### size
@@ -155,6 +154,27 @@ import { first } from "irritable-iterable"
 const result = first(["a", "b", "c", "d"])
 
 assert.equal(result, "a")
+```
+
+### head
+
+```js
+import { head } from "irritable-iterable"
+
+const result = head(["a", "b", "c", "d"], 2)
+
+assert.equal(result, ["a", "b"])
+```
+
+#### headAsync
+
+```js
+import { headAsync } from "irritable-iterable"
+
+const promisedResult = headAsync(generateOneTwoThree(), 2).collect()
+
+const result = await promisedResult
+assert.deepEqual(result, [1, 2])
 ```
 
 ### collect
