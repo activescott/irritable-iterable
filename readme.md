@@ -11,11 +11,9 @@
 
 `async-iterable` is a zero-dependency JavaScript library enhancing JavaScript iterables and generators[^1], and their asynchronous counterparts[^2]. Unlike other collection packages, `async-iterable` excels in memory efficiency across any iterable size, including standard arrays and it supports asynchronous versions of iterables/iterators/generators.
 
-The advantage of this library over most other "collection" functions in most other packages, is that this will generally take a smaller amount of memory, no matter the size of the iterable it is working against.
-It will also work fine with the standard Array but there won't be a memory advantage.
+Key features include on-demand data processing without preloading entire collections. For instance, when iterating through a data stream from an external source, `async-iterable` filters or accesses initial segments (`head` and `headAsync`) without needing to load all items, optimizing performance for large datasets or when individual items are slow to retrieve.
 
 For example... If you're iterator through a iterable that is fetching pages of data from another host while you're iterating through it, it won't force the iterator to enumerate every value in order to filter it. It will filter the data as it is requested/iterated by the caller.
-
 [^1]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators
 [^2]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncIterator
 
