@@ -16,6 +16,9 @@ It will also work fine with the standard Array but there won't be a memory advan
 
 For example... If you're iterator through a iterable that is fetching pages of data from another host while you're iterating through it, it won't force the iterator to enumerate every value in order to filter it. It will filter the data as it is requested/iterated by the caller.
 
+[^1]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators
+[^2]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncIterator
+
 <!-- TOC -->
 
 - [Usage / Quick Start](#usage--quick-start)
