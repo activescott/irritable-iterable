@@ -2,19 +2,18 @@
 [![npm downloads](https://img.shields.io/npm/dt/irritable-iterable.svg?logo=npm)](https://www.npmjs.com/package/irritable-iterable)
 [![Build Status](https://github.com/activescott/irritable-iterable/workflows/main/badge.svg)](https://github.com/activescott/irritable-iterable/actions)
 [![Coverage Status](https://coveralls.io/repos/github/activescott/irritable-iterable/badge.svg?branch=master)](https://coveralls.io/github/activescott/irritable-iterable?branch=master)
-[![Dependency Count](https://badgen.net/bundlephobia/dependency-count/irritable-iterable)](https://bundlephobia.com/result?p=irritable-iterable)
-[![Minified Size](https://badgen.net/bundlephobia/min/irritable-iterable)](https://bundlephobia.com/result?p=irritable-iterable)
+[![install size](https://packagephobia.com/badge?p=irritable-iterable)](https://packagephobia.com/result?p=irritable-iterable)
 [![License](https://img.shields.io/github/license/activescott/irritable-iterable.svg)](https://github.com/activescott/irritable-iterable/blob/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/activescott/irritable-iterable.svg?style=social)](https://github.com/activescott/irritable-iterable)
 
 # Irritable Iterable
 
-Collection functions for JavaScript [iterators, generators and iterables](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators).
+`async-iterable` is a zero-dependency JavaScript library enhancing JavaScript [iterables and generators][^1], and their [asynchronous counterparts][^2]. Unlike other collection packages, `async-iterable` excels in memory efficiency across any iterable size, including standard arrays and it supports asynchronous versions of iterables/iterators/generators.
 
-The advantage of this library over most other "collection" functions in most other packages, is that this will generally take a smaller amount of memory, no matter the size of the iterable it is working against.
-It will also work fine with the standard Array but there won't be a memory advantage.
+Key features include on-demand data processing without preloading entire collections. For instance, when iterating through a data stream from an external source, `async-iterable` filters or accesses initial segments (`head` and `headAsync`) without needing to load all items, optimizing performance for large datasets or when individual items are slow to retrieve.
 
-For example... If you're iterator through a iterable that is fetching pages of data from another host while you're iterating through it, it won't force the iterator to enumerate every value in order to filter it. It will filter the data as it is requested/iterated by the caller.
+[^1]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators
+[^2]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncIterator
 
 <!-- TOC -->
 
@@ -28,7 +27,7 @@ For example... If you're iterator through a iterable that is fetching pages of d
 
 ### Install
 
-`npm install -P irritable-iterable`
+`npm add irritable-iterable`
 
 ### Quick Start
 
@@ -42,7 +41,7 @@ const result = filter([1, 2, 3, 4], (num) => num % 2 === 0)
 assert.deepEqual(result, ["2 is even", "4 is even"])
 ```
 
-There are also `*Async` versions of each function (e.g. `filterAsync`, `mapAsync`, `groupAsync`, etc.) supporting [Asynchronous Iterable and Asynchronous Generator functions](https://github.com/tc39/proposal-async-iteration). For example:
+There are also `*Async` versions of each function (e.g. `filterAsync`, `mapAsync`, `groupAsync`, etc.) supporting [Asynchronous AsyncIterator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncIterator) and AsyncGenerator functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncGenerator). For example:
 
 ```js
 import { filterAsync } from "irritable-iterable"
@@ -57,7 +56,7 @@ const promisedResult = filterAsync(
 const result = await promisedResult
 assert.deepEqual(result, ["2 is even"])
 
-// for demonstration purposes:
+// for demonstration purposes, but these could each be expensive asynchronous `fetch` calls
 async function* generateOneTwoThree() {
   yield 1
   yield 2
@@ -83,7 +82,7 @@ chain([1, 2, 3]).collect() // => [1, 2, 3]
 A more typical example might be:
 
 ```js
-import { chain } from "irritable-iterable"
+import { filter } from "irritable-iterable"
 
 const result = filter([1, 2, 3, 4], (num) => num % 2 === 0)
   .map((num) => `${num} is even`)
@@ -109,7 +108,7 @@ import { map } from "irritable-iterable"
 
 const result = map([1, 2, 3], (num) => "number " + num).collect()
 
-assert.deepEqual(result, ["number 1", "number 2", "number 3"])
+assert.deepStrictEqual(result, ["number 1", "number 2", "number 3"])
 ```
 
 ### range
@@ -121,10 +120,10 @@ The stop value is exclusive; it is not included in the result.
 import { range } from "irritable-iterable"
 
 let result = range(3).collect()
-assert.deepEqual(result, [0, 1, 2])
+assert.deepStrictEqual(result, [0, 1, 2])
 
 result = range(0, 20, 5).collect()
-assert.deepEqual(result, [0, 5, 10, 15])
+assert.deepStrictEqual(result, [0, 5, 10, 15])
 ```
 
 ### size
@@ -155,6 +154,27 @@ import { first } from "irritable-iterable"
 const result = first(["a", "b", "c", "d"])
 
 assert.equal(result, "a")
+```
+
+### head
+
+```js
+import { head } from "irritable-iterable"
+
+const result = head(["a", "b", "c", "d"], 2)
+
+assert.equal(result, ["a", "b"])
+```
+
+#### headAsync
+
+```js
+import { headAsync } from "irritable-iterable"
+
+const promisedResult = headAsync(generateOneTwoThree(), 2).collect()
+
+const result = await promisedResult
+assert.deepEqual(result, [1, 2])
 ```
 
 ### collect
