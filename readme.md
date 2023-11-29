@@ -9,7 +9,7 @@
 
 # Irritable Iterable
 
-Collection functions for JavaScript [iterators, generators and iterables](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators).
+`async-iterable` is a zero-dependency JavaScript library enhancing JavaScript iterables and generators[^1], and their asynchronous counterparts[^2]. Unlike other collection packages, `async-iterable` excels in memory efficiency across any iterable size, including standard arrays and it supports asynchronous versions of iterables/iterators/generators.
 
 The advantage of this library over most other "collection" functions in most other packages, is that this will generally take a smaller amount of memory, no matter the size of the iterable it is working against.
 It will also work fine with the standard Array but there won't be a memory advantage.
