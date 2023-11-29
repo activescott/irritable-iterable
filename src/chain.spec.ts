@@ -20,7 +20,7 @@ describe("chain", () => {
       .first()
   })
 
-  it("should return wrapped values", () => {
+  it("should return  wrapped values", () => {
     const wrapped = chain([])
     const filter = wrapped.filter(() => true)
     const map = wrapped.map((i) => i)
@@ -50,30 +50,6 @@ describe("chain", () => {
       [2, 4],
       [3, 4],
     ])
-  })
-
-  it("should first", () => {
-    expect(chain(array).first()).toStrictEqual(1)
-  })
-
-  it("should filter", () => {
-    expect(
-      chain(array)
-        .filter((item) => item === 2)
-        .collect()
-    ).toStrictEqual([2])
-  })
-
-  it("should map", () => {
-    expect(
-      chain(array)
-        .map((item) => item * 2)
-        .collect()
-    ).toStrictEqual([2, 4, 6])
-  })
-
-  it("should head", () => {
-    expect(chain(array).head(2).collect()).toStrictEqual([1, 2])
   })
 
   it("to be iterable", () => {

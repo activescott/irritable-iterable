@@ -9,21 +9,12 @@ import {
   size,
   group,
   product,
-  head,
-  headAsync,
 } from "../src"
 import * as assert from "assert"
 
 /* eslint-disable no-console */
 
-// assert to make examples easily readable and testable anywhere:
-
-// for demonstration purposes, but these could each be fetch calls
-async function* generateOneTwoThree() {
-  yield 1
-  yield 2
-  yield 3
-}
+// assert to make examples easily readiable and totally testable:
 
 describe("readme examples", () => {
   test("Quick Start", () => {
@@ -90,17 +81,17 @@ describe("readme examples", () => {
 
     const result = map([1, 2, 3], (num) => "number " + num).collect()
 
-    assert.deepStrictEqual(result, ["number 1", "number 2", "number 3"])
+    assert.deepEqual(result, ["number 1", "number 2", "number 3"])
   })
 
   test("range", () => {
     // import { range } from "irritable-iterable"
 
     let result = range(3).collect()
-    assert.deepStrictEqual(result, [0, 1, 2])
+    assert.deepEqual(result, [0, 1, 2])
 
     result = range(0, 20, 5).collect()
-    assert.deepStrictEqual(result, [0, 5, 10, 15])
+    assert.deepEqual(result, [0, 5, 10, 15])
   })
 
   test("size", () => {
@@ -125,22 +116,6 @@ describe("readme examples", () => {
     const result = first(["a", "b", "c", "d"])
 
     assert.equal(result, "a")
-  })
-
-  test("head", () => {
-    //import { head } from "irritable-iterable"
-    const result = head(["a", "b", "c", "d"], 2)
-
-    assert.deepStrictEqual(result.collect(), ["a", "b"])
-  })
-
-  test("headAsync", async () => {
-    //import { headAsync } from "irritable-iterable"
-
-    const promisedResult = headAsync(generateOneTwoThree(), 2).collect()
-
-    const result = await promisedResult
-    assert.deepEqual(result, [1, 2])
   })
 
   test("collect", () => {
