@@ -5,6 +5,7 @@ import { map } from "./map"
 import Predicate from "./Predicate"
 import { find } from "./find"
 import { product } from "./product"
+import { Integer, head } from "./head"
 
 /**
  * Specifies the methods available on an iterable chain.
@@ -17,6 +18,7 @@ export interface Chain<TItem> extends Iterable<TItem> {
   collect(): TItem[]
   find(predicate: Predicate<TItem>): TItem | undefined
   first(): TItem | undefined
+  head<TCount extends number>(count: Integer<TCount>): Chain<TItem>
   product(...iterables: Iterable<TItem>[]): Chain<TItem[]>
 }
 
@@ -44,6 +46,10 @@ class ChainImp<TItem> implements Chain<TItem> {
 
   public first(): TItem {
     return first(this.iterable)
+  }
+
+  public head<TCount extends number>(count: Integer<TCount>): Chain<TItem> {
+    return new ChainImp(head(this.iterable, count))
   }
 
   public product(...iterables: Iterable<TItem>[]): Chain<TItem[]> {

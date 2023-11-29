@@ -1,5 +1,6 @@
 import { Chain, chain } from "./chain"
 import { AsyncChain, chainAsync } from "./chainAsync"
+import { Integer } from "./head"
 import Predicate from "./Predicate"
 import rangeImp from "./range"
 export { chain } from "./chain"
@@ -44,3 +45,17 @@ export const range = (
   stop: number = undefined,
   step = 1
 ): Chain<number> => chain(rangeImp(start, stop, step))
+
+export function head<TItem, TCount extends number>(
+  iterable: Iterable<TItem>,
+  count: Integer<TCount>
+): Chain<TItem> {
+  return chain(iterable).head(count)
+}
+
+export function headAsync<TItem, TCount extends number>(
+  iterable: AsyncIterable<TItem>,
+  count: Integer<TCount>
+): AsyncChain<TItem> {
+  return chainAsync(iterable).head(count)
+}
