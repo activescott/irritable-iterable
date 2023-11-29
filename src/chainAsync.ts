@@ -1,12 +1,10 @@
 import { filterAsync } from "./filter"
 import { findAsync } from "./find"
-import { headAsync, Integer } from "./head"
 import { mapAsync } from "./map"
 import Predicate from "./Predicate"
 
 export interface AsyncChain<TItem> extends AsyncIterable<TItem> {
   filter(predicate: Predicate<TItem>): AsyncChain<TItem>
-  head<TCount extends number>(count: Integer<TCount>): AsyncChain<TItem>
   map<TOut>(mapper: (item: TItem, index: number) => TOut): AsyncChain<TOut>
   // below here methods are actions that force an iteration
   /**
@@ -45,12 +43,6 @@ export class AsyncChainImp<TItem> implements AsyncChain<TItem> {
     mapper: (item: TItem, index: number) => TOut
   ): AsyncChain<TOut> {
     return new AsyncChainImp(mapAsync(this.iterable, mapper))
-  }
-
-  public head<TCount extends number>(
-    count: Integer<TCount>
-  ): AsyncChain<TItem> {
-    return new AsyncChainImp(headAsync(this.iterable, count))
   }
 
   public async size(): Promise<number> {

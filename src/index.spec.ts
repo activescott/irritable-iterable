@@ -11,8 +11,6 @@ import {
   chainAsync,
   mapAsync,
   filterAsync,
-  head,
-  headAsync,
 } from "./index"
 
 describe("index", () => {
@@ -23,7 +21,6 @@ describe("index", () => {
       expectIsChainInstance(map(arr, (itm) => itm))
       expectIsChainInstance(filter(arr, () => true))
       expectIsChainInstance(range(3))
-      expectIsChainInstance(head(arr, 1))
     })
   })
   describe("package default async exports", () => {
@@ -33,7 +30,6 @@ describe("index", () => {
       expectIsAsyncChainInstance(chainAsync(getAsyncIterator()))
       expectIsAsyncChainInstance(mapAsync(getAsyncIterator(), (itm) => itm))
       expectIsAsyncChainInstance(filterAsync(getAsyncIterator(), () => true))
-      expectIsAsyncChainInstance(headAsync(getAsyncIterator(), 1))
     })
   })
 })
